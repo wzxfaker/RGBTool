@@ -80,7 +80,6 @@
     CGPathRelease(self.path);
     self.path = CGPathCreateMutable();
     self.shapeLayer.path = nil;
-
 }
 
 - (void)dealloc{

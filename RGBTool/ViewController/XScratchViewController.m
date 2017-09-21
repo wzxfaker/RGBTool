@@ -14,6 +14,8 @@
 
 /** <##> */
 @property (nonatomic, strong) XScratchView *scratchView;
+/** resultImageView */
+@property (nonatomic, strong) UIImageView *resultImageView;
 
 @end
 
@@ -30,20 +32,44 @@
     
     _scratchView = scratchView;
     [self.view addSubview:scratchView];
+    
+    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    saveBtn.frame = CGRectMake(0, 420, kScreenWidth/3.0, 30);
+    [saveBtn setTitle:@"保存" forState:UIControlStateNormal];
+    [saveBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [saveBtn addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:saveBtn];
 
     UIButton *recoverBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    recoverBtn.frame = CGRectMake((kScreenWidth-100)*0.5, 450, 100, 40);
+    recoverBtn.frame = CGRectMake(kScreenWidth/3.0, 420, kScreenWidth/3.0, 30);
     [recoverBtn setTitle:@"复原" forState:UIControlStateNormal];
     [recoverBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [recoverBtn addTarget:self action:@selector(recover) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:recoverBtn];
     
     UIButton *picBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    picBtn.frame = CGRectMake((kScreenWidth-100)*0.5, 500, 100, 40);
+    picBtn.frame = CGRectMake(kScreenWidth/3.0*2, 420, kScreenWidth/3.0, 30);
     [picBtn setTitle:@"更换图片" forState:UIControlStateNormal];
     [picBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [picBtn addTarget:self action:@selector(selectPic) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:picBtn];
+    
+    UIImageView *resultImageView = [[UIImageView alloc] init];
+    resultImageView.frame = CGRectMake(50, 460, kScreenWidth-100, 210);
+    _resultImageView = resultImageView;
+    [self.view addSubview:resultImageView];
+}
+
+- (void)save{
+    __weak typeof(self) weakSelf = self;
+    UIGraphicsBeginImageContextWithOptions(weakSelf.scratchView.frame.size, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [weakSelf.scratchView.layer renderInContext:context];
+    UIImage *deadledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    weakSelf.resultImageView.image = deadledImage;
+
 }
 
 - (void)recover{

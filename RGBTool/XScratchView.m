@@ -62,6 +62,7 @@
     CGPoint point = [touch locationInView:self];
     CGPathMoveToPoint(self.path, nil, point.x, point.y);
     self.shapeLayer.path = self.path;
+    
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

@@ -180,6 +180,7 @@
     CGColorSpaceRelease(colorSpace);
     CGDataProviderRelease(providerRef);
     CGContextRelease(outContextRef);
+    free(rawData);
     return mosaicImage;
 }
 
